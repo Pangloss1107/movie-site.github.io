@@ -413,3 +413,70 @@ function openSidebar() {
 function closeSidebar() {
   document.getElementById("sidebar").style.width = "0";
 }
+
+//Fav list 
+
+// Agregar un nuevo array para almacenar películas favoritas
+let favoriteMovies = [];
+
+// Función para guardar películas favoritas en Local Storage
+function saveFavoriteMovies() {
+    localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
+}
+
+// Función para cargar películas favoritas desde Local Storage
+function loadFavoriteMovies() {
+    const storedFavoriteMovies = localStorage.getItem('favoriteMovies');
+    if (storedFavoriteMovies) {
+        favoriteMovies = JSON.parse(storedFavoriteMovies);
+    }
+}
+
+// Llama a la función para cargar películas favoritas al cargar la página
+loadFavoriteMovies();
+
+// Función para mostrar películas con opción de agregar a favoritos
+function showMovies(data) {
+    main.innerHTML = '';
+
+    data.forEach(movie => {
+        const { title, poster_path, vote_average, overview, id } = movie;
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie');
+        movieEl.innerHTML = `
+             <img src="${poster_path ? IMG_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}">
+            <div class="movie-info">
+                <h3>${title}</h3>
+                <span class="${getColor(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview">
+                <h3>Overview</h3>
+                ${overview}
+                <br/> 
+                <button class="know-more" id="${id}">Know More</button>
+                <button class="add-favorite" id="fav_${id}">Add to Favorites</button>
+            </div>
+        `;
+
+        main.appendChild(movieEl);
+
+        // Agregar evento para agregar a favoritos
+        const addFavoriteBtn = document.getElementById(`fav_${id}`);
+        addFavoriteBtn.addEventListener('click', () => {
+            const favoriteMovie = data.find(movie => movie.id === id);
+            if (favoriteMovie && !favoriteMovies.some(fav => fav.id === favoriteMovie.id)) {
+                favoriteMovies.push(favoriteMovie);
+                saveFavoriteMovies();
+                alert('Movie added to favorites!');
+            } else {
+                alert('Movie already in favorites!');
+            }
+        });
+
+        // Agregar evento para abrir detalles
+        document.getElementById(id).addEventListener('click', () => {
+            openNav(movie);
+        });
+    });
+}
+
