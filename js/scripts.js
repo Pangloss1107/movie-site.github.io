@@ -171,8 +171,7 @@ getMovies(API_URL);
 function getMovies(url) {
   lastUrl = url;
     fetch(url).then(res => res.json()).then(data => {
-        console.log(data.results)
-        if(data.results.length !== 0){
+        if(data.results && data.results.length !== 0){
             showMovies(data.results);
             currentPage = data.page;
             nextPage = currentPage + 1;
@@ -204,6 +203,12 @@ function getMovies(url) {
 
 
 function showMovies(data) {
+    // Verificar si data es undefined o si no es un arreglo
+    if (!data || !Array.isArray(data)) {
+        console.error("No se recibieron datos válidos para mostrar películas.");
+        return;
+    }
+
     main.innerHTML = '';
 
     data.forEach(movie => {
@@ -223,7 +228,7 @@ function showMovies(data) {
                 <h3>Overview</h3>
                 ${overview}
                 <br/> 
-                <button class="know-more" id="${id}">Know More</button
+                <button class="know-more" id="${id}">Know More</button>
             </div>
         
         `
@@ -245,7 +250,7 @@ function openNav(movie) {
     console.log(videoData);
     if(videoData){
       document.getElementById("myNav").style.width = "100%";
-      if(videoData.results.length > 0){
+      if(videoData.results && videoData.results.length > 0){
         var embed = [];
         var dots = [];
         videoData.results.forEach((video, idx) => {
@@ -394,89 +399,45 @@ function pageCall(page){
 }
 function myFunction(x) {
   x.classList.toggle("change");
-  toggleSidebar();
+  toggleSidebar(); 
 }
 
 function toggleSidebar() {
-  var sidebar = document.getElementById("sidebar");
-  if (sidebar.style.width === "200px") {
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar.classList.contains("sidebar-open")) {
       closeSidebar();
   } else {
       openSidebar();
   }
 }
-
 function openSidebar() {
-  document.getElementById("sidebar").style.width = "200px";
+  var sidebar = document.getElementById("sidebar");
+  var container = document.querySelector(".container");
+  var mainContent = document.getElementById("main");
+
+  sidebar.classList.add("sidebar-open");
+  container.classList.add("container-open");
+  mainContent.classList.add("container-open-main");
+
+  var tagsDiv = document.getElementById("tags");
+  tagsDiv.innerHTML = '<h2 class="genresTitle">Genres</h2>'; 
+  genres.forEach(genre => {
+      var tag = document.createElement('div');
+      tag.classList.add('tag');
+      tag.textContent = genre.name;
+      tag.addEventListener('click', function() {
+          getMovies(API_URL + '&with_genres=' + genre.id);
+      });
+      tagsDiv.appendChild(tag);
+  });
 }
 
 function closeSidebar() {
-  document.getElementById("sidebar").style.width = "0";
+  var sidebar = document.getElementById("sidebar");
+  var container = document.querySelector(".container");
+  var mainContent = document.getElementById("main");
+
+  sidebar.classList.remove("sidebar-open"); 
+  container.classList.remove("container-open");
+  mainContent.classList.remove("container-open-main");
 }
-
-//Fav list 
-
-// Agregar un nuevo array para almacenar películas favoritas
-let favoriteMovies = [];
-
-// Función para guardar películas favoritas en Local Storage
-function saveFavoriteMovies() {
-    localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
-}
-
-// Función para cargar películas favoritas desde Local Storage
-function loadFavoriteMovies() {
-    const storedFavoriteMovies = localStorage.getItem('favoriteMovies');
-    if (storedFavoriteMovies) {
-        favoriteMovies = JSON.parse(storedFavoriteMovies);
-    }
-}
-
-// Llama a la función para cargar películas favoritas al cargar la página
-loadFavoriteMovies();
-
-// Función para mostrar películas con opción de agregar a favoritos
-function showMovies(data) {
-    main.innerHTML = '';
-
-    data.forEach(movie => {
-        const { title, poster_path, vote_average, overview, id } = movie;
-        const movieEl = document.createElement('div');
-        movieEl.classList.add('movie');
-        movieEl.innerHTML = `
-             <img src="${poster_path ? IMG_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}">
-            <div class="movie-info">
-                <h3>${title}</h3>
-                <span class="${getColor(vote_average)}">${vote_average}</span>
-            </div>
-            <div class="overview">
-                <h3>Overview</h3>
-                ${overview}
-                <br/> 
-                <button class="know-more" id="${id}">Know More</button>
-                <button class="add-favorite" id="fav_${id}">Add to Favorites</button>
-            </div>
-        `;
-
-        main.appendChild(movieEl);
-
-        // Agregar evento para agregar a favoritos
-        const addFavoriteBtn = document.getElementById(`fav_${id}`);
-        addFavoriteBtn.addEventListener('click', () => {
-            const favoriteMovie = data.find(movie => movie.id === id);
-            if (favoriteMovie && !favoriteMovies.some(fav => fav.id === favoriteMovie.id)) {
-                favoriteMovies.push(favoriteMovie);
-                saveFavoriteMovies();
-                alert('Movie added to favorites!');
-            } else {
-                alert('Movie already in favorites!');
-            }
-        });
-
-        // Agregar evento para abrir detalles
-        document.getElementById(id).addEventListener('click', () => {
-            openNav(movie);
-        });
-    });
-}
-

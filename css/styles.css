@@ -245,13 +245,34 @@ main {
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
-    background-color: var(--secondary-color);
+    left: -200px; 
+    background-color: var(--secondary-color); /* Color de fondo del sidebar */
     overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
+    transition: left 0.5s; /* Transición suave para el desplazamiento */
+    padding-top: 60px; /* Espacio para evitar que se solape con la barra de navegación */
 }
 
+/* Estilo para el enlace de cierre del sidebar */
+.closebtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+}
+
+/* Estilo para los elementos dentro del sidebar */
+.tags {
+    padding: 20px;
+    color: white;
+}
+
+/* Cuando el sidebar está abierto */
+.sidebar.sidebar-open {
+    left: 0; /* Desplaza el sidebar hacia la pantalla */
+    width: 200px;
+}
 .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
@@ -274,6 +295,9 @@ main {
     color: #eee;
 }
 
+.genresTitle{
+    color: var(--primary-color);
+}
 .container {
     display: inline-block;
     cursor: pointer;

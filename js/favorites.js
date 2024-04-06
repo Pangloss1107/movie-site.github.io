@@ -1,4 +1,3 @@
-// Función para cargar y mostrar películas favoritas
 function loadFavoriteMovies() {
     const storedFavoriteMovies = localStorage.getItem('favoriteMovies');
     const main = document.getElementById('main');
@@ -26,7 +25,7 @@ function loadFavoriteMovies() {
                 `;
                 main.appendChild(movieEl);
   
-                // Agregar evento para eliminar de favoritos
+                //Add event to delete fav
                 const removeFavoriteBtn = document.getElementById(`fav_${id}`);
                 removeFavoriteBtn.addEventListener('click', () => {
                     const updatedFavoriteMovies = favoriteMovies.filter(favMovie => favMovie.id !== id);
@@ -34,7 +33,7 @@ function loadFavoriteMovies() {
                     loadFavoriteMovies();
                 });
   
-                // Agregar evento para abrir detalles
+                // open details 
                 document.getElementById(id).addEventListener('click', () => {
                     openNav(movie);
                 });
@@ -47,5 +46,4 @@ function loadFavoriteMovies() {
     }
   }
   
-  // Llamar a la función para cargar películas favoritas al cargar la página
   loadFavoriteMovies();
