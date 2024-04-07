@@ -124,7 +124,12 @@ section.favMovie{
     padding: 0.5rem 1rem 1rem;
     letter-spacing: 0.5px;
 }
-
+.titleFav{
+    display: flex;
+    justify-content: center;
+    color: var(--primary-color);
+    text-decoration:solid;
+}
 .movie-info h3 {
     margin-top: 0;
 }
