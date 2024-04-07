@@ -488,7 +488,7 @@ function showMovies(data) {
 
         main.appendChild(movieEl);
 
-        // Agregar evento para agregar a favoritos
+    
         const addFavoriteBtn = document.getElementById(`fav_${id}`);
         addFavoriteBtn.addEventListener('click', () => {
             const favoriteMovie = data.find(movie => movie.id === id);
@@ -501,7 +501,6 @@ function showMovies(data) {
             }
         });
 
-        // Agregar evento para abrir detalles
         document.getElementById(id).addEventListener('click', () => {
             openNav(movie);
         });
