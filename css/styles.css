@@ -25,6 +25,7 @@ header img {
     grid-row: 1;
 }
 
+
 header #form {
     grid-column: 1;
     grid-row: 2;
@@ -40,6 +41,7 @@ header .container{
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+   
 }
 
 #form {
@@ -74,6 +76,7 @@ section.favMovie{
 .favMovie img{
     width: 50px;
 }
+
 .add-favorite{
     background-color: orange;
     color: white;
@@ -447,5 +450,6 @@ section.favMovie{
         grid-row: 2;
         justify-content: flex-start;
         margin-left: 30px;
+        width: 10%;
     }
 }
