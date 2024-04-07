@@ -441,3 +441,69 @@ function closeSidebar() {
   container.classList.remove("container-open");
   mainContent.classList.remove("container-open-main");
 }
+
+
+//Fav list 
+
+let favoriteMovies = [];
+
+// Save films in LS
+function saveFavoriteMovies() {
+    localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
+}
+
+// Load films from lstorage
+function loadFavoriteMovies() {
+    const storedFavoriteMovies = localStorage.getItem('favoriteMovies');
+    if (storedFavoriteMovies) {
+        favoriteMovies = JSON.parse(storedFavoriteMovies);
+    }
+}
+
+//Call loadFavoriteMovies function
+loadFavoriteMovies();
+
+// Funciton to show finls with add fav option
+function showMovies(data) {
+    main.innerHTML = '';
+
+    data.forEach(movie => {
+        const { title, poster_path, vote_average, overview, id } = movie;
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie');
+        movieEl.innerHTML = `
+             <img src="${poster_path ? IMG_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}">
+            <div class="movie-info">
+                <h3>${title}</h3>
+                <span class="${getColor(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview">
+                <h3>Overview</h3>
+                ${overview}
+                <br/> 
+                <button class="know-more" id="${id}">Know More</button>
+                <button class="add-favorite" id="fav_${id}">Add to Favorites</button>
+            </div>
+        `;
+
+        main.appendChild(movieEl);
+
+        // Agregar evento para agregar a favoritos
+        const addFavoriteBtn = document.getElementById(`fav_${id}`);
+        addFavoriteBtn.addEventListener('click', () => {
+            const favoriteMovie = data.find(movie => movie.id === id);
+            if (favoriteMovie && !favoriteMovies.some(fav => fav.id === favoriteMovie.id)) {
+                favoriteMovies.push(favoriteMovie);
+                saveFavoriteMovies();
+                alert('Movie added to favorites!');
+            } else {
+                alert('Movie already in favorites!');
+            }
+        });
+
+        // Agregar evento para abrir detalles
+        document.getElementById(id).addEventListener('click', () => {
+            openNav(movie);
+        });
+    });
+}
