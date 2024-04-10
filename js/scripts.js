@@ -145,27 +145,7 @@ function highlightSelection() {
     }
 
 }
-
-function clearBtn(){
-    let clearBtn = document.getElementById('clear');
-    if(clearBtn){
-        clearBtn.classList.add('highlight')
-    }else{
-            
-        let clear = document.createElement('div');
-        clear.classList.add('tag','highlight');
-        clear.id = 'clear';
-        clear.innerText = 'Clear x';
-        clear.addEventListener('click', () => {
-            selectedGenre = [];
-            setGenre();            
-            getMovies(API_URL);
-        })
-        tagsEl.append(clear);
-    }
-    
-}
-
+  
 getMovies(API_URL);
 
 function getMovies(url) {

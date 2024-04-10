@@ -111,6 +111,20 @@ section.favMovie{
 .logo img {
     width: 200px;
 }
+.logo img {
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.1); 
+}
+
+.favMovie img{
+    transition: transform 0.3s ease;
+}
+.favMovie img:hover{
+    transform: scale(1.1);
+}
 
 .movie img {
     width: 100%;
