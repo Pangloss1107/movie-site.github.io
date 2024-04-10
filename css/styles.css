@@ -296,13 +296,13 @@ section.favMovie{
     z-index: 1;
     top: 0;
     left: -200px; 
-    background-color: var(--secondary-color); /* Color de fondo del sidebar */
+    background-color: var(--secondary-color); 
     overflow-x: hidden;
-    transition: left 0.5s; /* Transición suave para el desplazamiento */
-    padding-top: 60px; /* Espacio para evitar que se solape con la barra de navegación */
+    transition: left 0.5s; 
+    padding-top: 60px; 
 }
 
-/* Estilo para el enlace de cierre del sidebar */
+
 .closebtn {
     position: absolute;
     top: 20px;
@@ -312,15 +312,15 @@ section.favMovie{
     text-decoration: none;
 }
 
-/* Estilo para los elementos dentro del sidebar */
+
 .tags {
     padding: 20px;
     color: white;
 }
 
-/* Cuando el sidebar está abierto */
+
 .sidebar.sidebar-open {
-    left: 0; /* Desplaza el sidebar hacia la pantalla */
+    left: 0;
     width: 200px;
 }
 .sidebar a {
@@ -428,7 +428,15 @@ section.favMovie{
 .dots .dot.active {
     color: orange;
 }
-
+footer{
+    font-family: 'Roboto', sans-serif;
+    color: var(--background-color);
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
 @media only screen and (min-width: 768px) {
    
